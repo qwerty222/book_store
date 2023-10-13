@@ -1,0 +1,42 @@
+@import './variables';
+@import './typography';
+
+.header {
+    display: flex;
+    justify-content: space-between;  
+    align-items: center;
+    padding: 40px 160px;
+}
+
+.header-logo {
+    color: $text-black;
+    font-family: $heading-font;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.header-link {
+    color: $text-black;
+    font-family: $heading-font;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.header-user-menu {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}

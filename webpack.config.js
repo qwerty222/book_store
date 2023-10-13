@@ -1,7 +1,5 @@
 const path = require('path');
-
 const TerserPlugin = require('terser-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,7 +8,7 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'main.js',
   },
   mode: 'development',
@@ -18,7 +16,45 @@ module.exports = {
     rules: [
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true,
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+          'sass-loader',
+        ],
+        include: /\.module\.scss$/,
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true,
+            },
+          },
+          'css-loader',
+          'sass-loader',
+        ],
+        exclude: /\.module\.scss$/,
+      },
+      {
+        test: /\.png$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'img',
+        },
       },
     ],
   },
@@ -40,5 +76,13 @@ module.exports = {
   ],
   stats: {
     children: true,
+  },
+  devServer: {
+    port: 5000,
+    compress: true,
+    hot: true,
+    static: {
+      directory: path.join(__dirname, 'build'),
+    },
   },
 };

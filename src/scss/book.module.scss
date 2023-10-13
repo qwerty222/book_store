@@ -1,0 +1,11 @@
+.serif-font {
+  font-family: Georgia, serif;
+}
+
+.element {
+  composes: serif-font;
+  background-color: blue;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+}
