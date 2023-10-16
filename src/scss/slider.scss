@@ -1,0 +1,35 @@
+@import './colors';
+
+.slider {
+    position: relative;
+    display:flex;
+    flex-direction: column;
+    gap: 17px;
+    padding: 0 160px;
+
+    .slider-image {
+        width: 100%;
+		height: auto;
+		opacity: 1;
+		transition: opacity 200ms ease-in-out;
+    }
+
+    .slider-nav {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: $dot-color;
+            cursor: pointer;
+        }
+
+        .dot-active {
+            background-color: $dot-active-color;
+        }
+    }
+}
