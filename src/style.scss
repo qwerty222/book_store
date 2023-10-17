@@ -3,4 +3,8 @@
 @import './scss/colors';
 @import './scss/layout';
 @import './scss/header';
-@import './scss/slider'
+@import './scss/slider';
+
+.container {
+    position: relative;
+}

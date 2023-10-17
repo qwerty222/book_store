@@ -1,17 +1,25 @@
 @import './colors';
 
 .slider {
-    position: relative;
     display:flex;
     flex-direction: column;
     gap: 17px;
     padding: 0 160px;
+    position: relative;
 
     .slider-image {
-        width: 100%;
-		height: auto;
-		opacity: 1;
-		transition: opacity 200ms ease-in-out;
+		object-fit: cover;
+        animation: opac 1.7s;
+    }
+
+    @keyframes opac {
+        from {
+           opacity: 0.5;
+        }
+
+        to {
+           opacity: 1;
+        }
     }
 
     .slider-nav {
@@ -31,5 +39,25 @@
         .dot-active {
             background-color: $dot-active-color;
         }
+    }
+
+    .slider-arrow-purple {
+        width: 149px;
+        height: 204px;
+        flex-shrink: 0;
+        background: #9E98DC;
+        position: absolute;
+        top: 195px;
+        right: 74px;
+    }
+
+    .slider-arrow-pink {
+        width: 137px;
+        height: 273px;
+        flex-shrink: 0;
+        background: #FF8FE6;
+        position: absolute;
+        top: 475px;
+        right: -21px;
     }
 }
