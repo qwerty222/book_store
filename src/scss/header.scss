@@ -9,38 +9,38 @@
     position: sticky;
     top: 0;
     width: auto;
-    background-color: #FFF;
-}
+    background-color: $white;
+    z-index: 2;
 
-.header-logo {
-    color: $text-black;
-    font-family: $heading-font;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
+    .header-logo {    
+        @include font($montserrat, 24px, normal, 700, normal);
+    
+        color: $text-black;
+    }
 
-.header-link {
-    color: $text-black;
-    font-family: $heading-font;
-    font-size: 10px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: normal;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-}
+    .header-nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
 
-.header-nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-}
+        .header-link {    
+            @include font($montserrat, 10px, normal, 900, normal);
+        
+            color: $text-black;    
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
 
-.header-user-menu {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
+    .header-user-menu {
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+    
+        a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
 }

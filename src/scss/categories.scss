@@ -1,0 +1,18 @@
+.categories {
+    width: 416px;
+    height: 710px;
+    flex-shrink: 0;
+    background: #EFEEF6;
+    color: var(--text-gray, #5C6A79);
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: capitalize;
+    padding-top: 45px;
+
+    li {
+        margin-bottom: 23px;
+    }
+}

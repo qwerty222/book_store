@@ -1,4 +1,5 @@
 @import './colors';
+@import './typography';
 
 .slider {
     display:flex;
@@ -6,20 +7,10 @@
     gap: 17px;
     padding: 0 160px;
     position: relative;
+    margin-bottom: 105px;
 
     .slider-image {
 		object-fit: cover;
-        animation: opac 1.7s;
-    }
-
-    @keyframes opac {
-        from {
-           opacity: 0.5;
-        }
-
-        to {
-           opacity: 1;
-        }
     }
 
     .slider-nav {
@@ -41,23 +32,46 @@
         }
     }
 
-    .slider-arrow-purple {
-        width: 149px;
-        height: 204px;
-        flex-shrink: 0;
-        background: #9E98DC;
+    .slider-link {
+        display: flex;
+        justify-self: start;
+        align-items: end;
         position: absolute;
-        top: 195px;
-        right: 74px;
+        z-index: 1;
+        box-shadow: 0 24px 36px 0 rgba(53 49 84 / 28%);
+
+        a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        p {
+            margin: 0;
+        }
     }
 
-    .slider-arrow-pink {
-        width: 137px;
-        height: 273px;
-        flex-shrink: 0;
-        background: #FF8FE6;
-        position: absolute;
-        top: 475px;
-        right: -21px;
+    .block-top {
+        background: $purple;
+        top: 11%;
+        right: 5%;
+        padding: 100px 20px 20px;
+        width: 10%;
+        height: 12%;
+    }
+
+    .block-bottom {
+        background: $pink;
+        top: 50%;
+        right: 0;
+        padding: 100px 50px 20px 20px;
+        width: 5%;
+        height: 17%;
+    }
+
+    .slider-text {
+        @include font($montserrat, 18px, normal, 700, normal);
+
+        color: $text-black;
+        text-transform: uppercase;
     }
 }

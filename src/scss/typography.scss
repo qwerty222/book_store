@@ -1,2 +1,10 @@
-$heading-font: 'Montserrat', sans-serif;
+$montserrat: 'Montserrat', sans-serif;
 $text-font: 'Open Sans', sans-serif;
+
+@mixin font($family, $size, $style, $weight, $height) {
+    font-family: $family;
+    font-size: $size;
+    font-style: $style;
+    font-weight: $weight;
+    line-height: $height;
+}
