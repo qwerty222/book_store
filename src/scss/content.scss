@@ -1,0 +1,19 @@
+@import './colors';
+@import './typography';
+
+.books-container {
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-load {
+    @include font($montserrat, 8px, normal, 700, normal);
+
+    width: 176px;
+    height: 45px;
+    border: 1px solid #4C3DB2;
+    color: #4C3DB2;
+    text-transform: uppercase;
+}
