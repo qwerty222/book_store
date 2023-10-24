@@ -2,10 +2,10 @@
 @import './typography';
 
 .books-container {
-    width: 1000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    background-color: gray;
+    z-index: 1;
+    display: grid;
 }
 
 .button-load {
