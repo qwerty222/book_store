@@ -3,9 +3,12 @@
 
 .books-container {
     position: relative;
-    background-color: gray;
+    top: -700px;
+    left: 200px;
     z-index: 1;
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }
 
 .button-load {

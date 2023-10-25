@@ -20,14 +20,6 @@ const prepareUrl = (startPosition, category) => {
 
 const booksContainer = document.querySelector('.books-container');
 
-const showBooks = (booksData) => {
-  booksData.items.forEach((book) => {
-    const testContent = document.createElement('p');
-    testContent.innerText = book.id;
-    booksContainer.appendChild(testContent);
-  });
-};
-
 const loadData = async (category, position = 0) => {
   try {
     const url = prepareUrl(position, category);
@@ -40,33 +32,57 @@ const loadData = async (category, position = 0) => {
     const data = await response.json();
     console.log(data);
 
-    showBooks(data);
-
-    return data;
+    return data.items;
   } catch (error) {
-    console.error('Error: ', error);
-  } finally {
-    // do something
+    booksContainer.innerText = `Error: ${error}`;
   }
+
+  return null;
+};
+
+const createBook = (bookData) => {
+  const book = document.createElement('div');
+
+  const title = document.createElement('p');
+  title.innerText = bookData.volumeInfo.title;
+  book.appendChild(title);
+
+  if (bookData.volumeInfo.imageLinks !== undefined) {
+    const img = document.createElement('img');
+    img.src = bookData.volumeInfo.imageLinks.thumbnail;
+    book.appendChild(img);
+  }
+
+  return book;
+};
+
+const showBooks = async (category, position = 0) => {
+  const booksData = await loadData(category, position);
+  booksData.forEach((book) => {
+    booksContainer.appendChild(createBook(book));
+  });
 };
 
 function books() {
   document.addEventListener('DOMContentLoaded', () => {
-    const d = loadData('Business');
-    // showBooks(d);
+    showBooks('Business');
   });
 
   document.querySelectorAll('.category').forEach((category) => {
     category.addEventListener('click', () => {
       booksContainer.innerHTML = '';
-      const d = loadData(category.dataset.bookType);
-
+      showBooks(category.dataset.bookType);
       const activeCategory = document.querySelector('.active');
       activeCategory.classList.toggle('active');
       category.classList.toggle('active');
-
-      // showBooks(d);
     });
+  });
+
+  const loadMoreButton = document.querySelector('.button-load');
+  loadMoreButton.addEventListener('click', () => {
+    const activeCategory = document.querySelector('.active');
+    const position = 0;
+    showBooks(activeCategory.dataset.bookType, position);
   });
 }
 
