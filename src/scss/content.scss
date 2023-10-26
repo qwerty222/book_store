@@ -4,11 +4,12 @@
 .books-container {
     position: relative;
     top: -700px;
-    left: 200px;
+    left: 300px;
     z-index: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    row-gap: 85px;
 }
 
 .button-load {

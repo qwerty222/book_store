@@ -1,4 +1,5 @@
 import styles from '../scss/book.module.scss';
+import cover from '../img/cover.png';
 
 const API_KEY = 'AIzaSyCeP9nI2eoIk_3I9uSLg8TsJ7ZfHRl9U6k';
 const MAX_RESULTS = 6;
@@ -21,6 +22,7 @@ const prepareUrl = (startPosition, category) => {
 const booksContainer = document.querySelector('.books-container');
 
 const loadData = async (category, position = 0) => {
+  let result = null;
   try {
     const url = prepareUrl(position, category);
     const response = await fetch(url);
@@ -30,28 +32,64 @@ const loadData = async (category, position = 0) => {
     }
 
     const data = await response.json();
-    console.log(data);
 
-    return data.items;
+    result = data.items;
   } catch (error) {
     booksContainer.innerText = `Error: ${error}`;
   }
 
-  return null;
+  return result;
 };
 
 const createBook = (bookData) => {
+  // root
   const book = document.createElement('div');
+  book.classList.add(styles.book);
 
-  const title = document.createElement('p');
-  title.innerText = bookData.volumeInfo.title;
-  book.appendChild(title);
-
+  // book cover
+  const imageWrapper = document.createElement('div');
+  imageWrapper.classList.add(styles['image-wrapper']);
+  const img = document.createElement('img');
   if (bookData.volumeInfo.imageLinks !== undefined) {
-    const img = document.createElement('img');
     img.src = bookData.volumeInfo.imageLinks.thumbnail;
-    book.appendChild(img);
+  } else {
+    img.src = cover;
   }
+  imageWrapper.appendChild(img);
+  book.appendChild(imageWrapper);
+
+  // content
+  const contentWrapper = document.createElement('div');
+  contentWrapper.classList.add(styles['content-wrapper']);
+
+  // authors
+  if (bookData.volumeInfo.authors !== undefined) {
+    bookData.volumeInfo.authors.forEach((author) => {
+      const authorElement = document.createElement('p');
+      authorElement.classList.add(styles.author);
+      authorElement.innerText = author;
+      contentWrapper.appendChild(authorElement);
+    });
+  }
+
+  // title
+  const title = document.createElement('p');
+  title.classList.add(styles.title);
+  title.innerText = bookData.volumeInfo.title;
+  contentWrapper.appendChild(title);
+
+  // averageRating
+
+  // ratingsCount
+
+  // items[0].volumeInfo.description
+
+  // items[0].saleInfo.saleability        NOT_FOR_SALE
+  // saleInfo.retailPrice ??
+
+  // buy/in-the-cart button
+
+  book.appendChild(contentWrapper);
 
   return book;
 };
