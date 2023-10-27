@@ -1,4 +1,4 @@
-@import './variables';
+@import './colors';
 @import './typography';
 
 .header {
@@ -41,6 +41,26 @@
         a {
             text-decoration: none;
             cursor: pointer;
+        }
+
+        .header-user-menu-cart {
+            position: relative;
+
+            .cart-counter {
+                @include font($montserrat, 10px, normal, 500, normal);
+    
+                width: 13px;
+                height: 13px;
+                background-color: $red;
+                border-radius: 50%;
+                color: $white;
+                text-transform: capitalize;
+                position: relative;
+                top: -10px;
+                left: 5px;
+                z-index: 1;
+                display: none;
+            }
         }
     }
 }

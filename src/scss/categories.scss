@@ -2,16 +2,13 @@
 @import './typography';
 
 .aside {
+    @include font($montserrat, 12px, normal, 500, normal);
+
     width: 416px;
     height: 710px;
     flex-shrink: 0;
     background: #EFEEF6;
-    color: var(--text-gray, #5C6A79);
-    font-family: Montserrat, sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    color: $text-gray;
     text-transform: capitalize;
     padding-top: 45px;
 
@@ -24,15 +21,13 @@
         }
 
         .active {
-            color: var(--text-black, #1C2A39);
-            font-family: Montserrat, sans-serif;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: normal;
+            @include font($montserrat, 16px, normal, 700, normal);
+
+            color: $text-black;
             text-transform: capitalize;
             list-style-type: disc;
-            fill: #756AD3;
+
+            // fill: #756AD3;
         }
     }
 }

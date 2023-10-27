@@ -15,6 +15,7 @@
 
 .book {
   display: flex;
+  gap: 36px;
 
   .content-wrapper {
     display: flex;
@@ -31,6 +32,34 @@
   
       color: $text-gray;
       text-transform: capitalize;
+    }
+
+    .description {
+      @include font($text-font, 10px, normal, 400, normal);
+
+      color: $text-gray;
+      text-transform: capitalize;
+    }
+
+    .price {
+      @include font($montserrat, 13px, normal, 700, normal);
+  
+      color: $text-black;
+      text-transform: uppercase;
+    }
+
+    .buy-button {
+      width: 176px;
+      height: 45px;
+      border: 1px solid #4C3DB2;
+      cursor: pointer;
+      background-color: #fff;
+      text-transform: uppercase;
+
+      &:hover {
+        border-color: #1d07aa;
+        background-color: #d8cccc;
+      }
     }
   }
 

@@ -58,7 +58,7 @@ const createBook = (bookData) => {
   imageWrapper.appendChild(img);
   book.appendChild(imageWrapper);
 
-  // content
+  // content wrapper
   const contentWrapper = document.createElement('div');
   contentWrapper.classList.add(styles['content-wrapper']);
 
@@ -82,12 +82,43 @@ const createBook = (bookData) => {
 
   // ratingsCount
 
-  // items[0].volumeInfo.description
+  // description
+  const description = document.createElement('p');
+  description.classList.add(styles.description);
+  description.innerText = bookData.volumeInfo.description;
+  contentWrapper.appendChild(description);
 
   // items[0].saleInfo.saleability        NOT_FOR_SALE
   // saleInfo.retailPrice ??
+  const price = document.createElement('p');
+  price.classList.add(styles.price);
+  if (bookData.saleInfo !== undefined && bookData.saleInfo.retailPrice !== undefined) {
+    price.innerText = bookData.saleInfo.retailPrice;
+  } else {
+    price.innerText = '---';
+  }
+  contentWrapper.appendChild(price);
 
-  // buy/in-the-cart button
+  // const keys = Object.keys(localStorage);
+  // for(const key of keys) {
+  //   alert(`${key}: ${localStorage.getItem(key)}`);
+  // }
+
+  // buy button
+  const buyButton = document.createElement('button');
+  buyButton.innerText = 'buy now';
+  buyButton.classList.add(styles['buy-button']);
+  buyButton.addEventListener('click', () => {
+    const cart = document.querySelector('.cart-counter');
+    cart.style.display = 'block';
+    // get count
+    const count = 0;
+    cart.innerText = count;
+    // check if book id in cart and add item id in storage
+    localStorage.setItem(bookData.id, 1);
+    buyButton.innerText = 'in the cart';
+  });
+  contentWrapper.appendChild(buyButton);
 
   book.appendChild(contentWrapper);
 
