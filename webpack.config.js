@@ -56,6 +56,14 @@ module.exports = {
           outputPath: 'img',
         },
       },
+      {
+        test: /\.svg$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'img',
+        },
+      },
     ],
   },
   optimization: {

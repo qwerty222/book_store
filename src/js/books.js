@@ -1,5 +1,7 @@
 import styles from '../scss/book.module.scss';
 import cover from '../img/cover.png';
+import goldStar from '../img/gold.svg';
+import greyStar from '../img/gray.svg';
 
 const API_KEY = 'AIzaSyCeP9nI2eoIk_3I9uSLg8TsJ7ZfHRl9U6k';
 const MAX_RESULTS = 6;
@@ -28,7 +30,7 @@ const loadData = async (category, position = 0) => {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Что-то пошло не так! status: ${response.status}`);
+      throw new Error(`Oops. status: ${response.status}`);
     }
 
     const data = await response.json();
@@ -41,100 +43,137 @@ const loadData = async (category, position = 0) => {
   return result;
 };
 
+const convertData = (items) => {
+  const booksArray = [];
+  items.forEach((item) => {
+    const book = {};
+    book.id = item.id;
+    const vi = item.volumeInfo;
+    const si = item.saleInfo;
+    book.title = vi.title;
+
+    if (!vi.authors) {
+      book.authors = 'Unknown';
+    } else if (vi.authors.length === 1) {
+      const author = vi.authors[0];
+      book.authors = author;
+    } else if (vi.authors.length > 1) {
+      book.authors = vi.authors.join(', ');
+    }
+
+    book.authors = vi.authors;
+    book.cover = !vi.imageLinks ? cover : vi.imageLinks.thumbnail;
+    book.description = vi.description || ' ';
+    book.rating = vi.averageRating;
+    book.reviews = vi.ratingsCount || 0;
+
+    if (
+      si.saleability === 'FREE'
+      || (si.saleability === 'FOR_SALE' && si.listPrice.amount === 0)
+    ) {
+      book.price = 'free';
+      book.currency = ' ';
+    } else if (si.saleability === 'FOR_SALE') {
+      book.price = si.listPrice.amount;
+      book.currency = si.listPrice.currencyCode;
+    } else if (si.saleability === 'NOT_FOR_SALE') {
+      book.price = 'not for sale';
+      book.currency = ' ';
+    }
+    booksArray.push(book);
+  });
+  return booksArray;
+};
+
+const CART_KEY = 'cart_book_ids';
+
+const getSavedBookIds = () => {
+  const bookArrayString = localStorage.getItem(CART_KEY);
+
+  return bookArrayString.split(',');
+};
+
+const saveBookId = (id) => {
+  const ids = getSavedBookIds();
+  const saved = ids.includes(id);
+  if (!saved) {
+    ids.push(id);
+    localStorage.setItem(CART_KEY, ids.toString());
+  }
+};
+
+const setCartBookCounter = () => {
+  const cart = document.querySelector('.cart-counter');
+  cart.style.display = 'block';
+  cart.innerText = getSavedBookIds().length;
+};
+
+const getStars = (rating) => {
+  let stars = '';
+  const goldStarCount = !rating ? 0 : Math.floor(rating);
+  const grayStarCount = 5 - goldStarCount;
+  for (let i = 0; i < goldStarCount; i += 1) {
+    stars += `<img src="${goldStar}" class="star">`;
+  }
+  for (let j = 0; j < grayStarCount; j += 1) {
+    stars += `<img src="${greyStar}" class="star">`;
+  }
+
+  return stars;
+};
+
 const createBook = (bookData) => {
-  // root
   const book = document.createElement('div');
   book.classList.add(styles.book);
 
-  // book cover
-  const imageWrapper = document.createElement('div');
-  imageWrapper.classList.add(styles['image-wrapper']);
-  const img = document.createElement('img');
-  if (bookData.volumeInfo.imageLinks !== undefined) {
-    img.src = bookData.volumeInfo.imageLinks.thumbnail;
-  } else {
-    img.src = cover;
-  }
-  imageWrapper.appendChild(img);
-  book.appendChild(imageWrapper);
+  const ids = getSavedBookIds();
+  const saved = ids.includes(bookData.id);
 
-  // content wrapper
-  const contentWrapper = document.createElement('div');
-  contentWrapper.classList.add(styles['content-wrapper']);
+  const stars = getStars(bookData.rating);
 
-  // authors
-  if (bookData.volumeInfo.authors !== undefined) {
-    bookData.volumeInfo.authors.forEach((author) => {
-      const authorElement = document.createElement('p');
-      authorElement.classList.add(styles.author);
-      authorElement.innerText = author;
-      contentWrapper.appendChild(authorElement);
-    });
-  }
+  const html = `<div class="${styles['image-wrapper']}">
+                 <img src="${bookData.cover}" alt>
+                </div>
+                <div class="${styles['content-wrapper']}">
+                  <p class="${styles.author}">${bookData.authors}</p>
+                  <p class="${styles.title}">${bookData.title}</p>
+                  <div class="stars">
+                    ${stars}
+                    <span class="${styles.reviews}">${bookData.reviews} review</span>
+                  </div>
+                  <p class="${styles.description}">${bookData.description}</p>
+                  <p class="${styles.price}">${bookData.currency} ${bookData.price}</p>
+                  <button id="${bookData.id}" data-book-id="${bookData.id}" class="${styles['buy-button']}">
+                    ${saved ? 'in the cart' : 'buy now'}
+                  </button>
+                </div>`;
 
-  // title
-  const title = document.createElement('p');
-  title.classList.add(styles.title);
-  title.innerText = bookData.volumeInfo.title;
-  contentWrapper.appendChild(title);
-
-  // averageRating
-
-  // ratingsCount
-
-  // description
-  const description = document.createElement('p');
-  description.classList.add(styles.description);
-  description.innerText = bookData.volumeInfo.description;
-  contentWrapper.appendChild(description);
-
-  // items[0].saleInfo.saleability        NOT_FOR_SALE
-  // saleInfo.retailPrice ??
-  const price = document.createElement('p');
-  price.classList.add(styles.price);
-  if (bookData.saleInfo !== undefined && bookData.saleInfo.retailPrice !== undefined) {
-    price.innerText = bookData.saleInfo.retailPrice;
-  } else {
-    price.innerText = '---';
-  }
-  contentWrapper.appendChild(price);
-
-  // const keys = Object.keys(localStorage);
-  // for(const key of keys) {
-  //   alert(`${key}: ${localStorage.getItem(key)}`);
-  // }
-
-  // buy button
-  const buyButton = document.createElement('button');
-  buyButton.innerText = 'buy now';
-  buyButton.classList.add(styles['buy-button']);
-  buyButton.addEventListener('click', () => {
-    const cart = document.querySelector('.cart-counter');
-    cart.style.display = 'block';
-    // get count
-    const count = 0;
-    cart.innerText = count;
-    // check if book id in cart and add item id in storage
-    localStorage.setItem(bookData.id, 1);
-    buyButton.innerText = 'in the cart';
-  });
-  contentWrapper.appendChild(buyButton);
-
-  book.appendChild(contentWrapper);
+  book.innerHTML = html;
 
   return book;
 };
 
 const showBooks = async (category, position = 0) => {
-  const booksData = await loadData(category, position);
-  booksData.forEach((book) => {
+  const data = await loadData(category, position);
+  const booksArray = convertData(data);
+  booksArray.forEach((book) => {
     booksContainer.appendChild(createBook(book));
+
+    const btn = document.getElementById(book.id);
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.bookId;
+      saveBookId(id);
+      const buyButton = btn;
+      buyButton.innerText = 'in the cart';
+      setCartBookCounter(id);
+    });
   });
 };
 
 function books() {
   document.addEventListener('DOMContentLoaded', () => {
-    showBooks('Business');
+    localStorage.setItem(CART_KEY, '');
+    showBooks('Architecture');
   });
 
   document.querySelectorAll('.category').forEach((category) => {
@@ -147,12 +186,25 @@ function books() {
     });
   });
 
-  const loadMoreButton = document.querySelector('.button-load');
-  loadMoreButton.addEventListener('click', () => {
+  document.querySelector('.button-load').addEventListener('click', () => {
     const activeCategory = document.querySelector('.active');
-    const position = 0;
+    const position = document.querySelectorAll(`.${styles.book}`).length;
     showBooks(activeCategory.dataset.bookType, position);
   });
+
+  // const btnStyle = styles['buy-button'];
+  // const buyButtons = document.querySelectorAll(`.${btnStyle}`);
+  // console.log('---buyButtons---', buyButtons, btnStyle);
+  // buyButtons.forEach((btn) => {
+  //   btn.addEventListener('click', () => {
+  //     console.log('button click', btn.dataset.bookId);
+  //     const id = btn.dataset.bookId;
+  //     saveBookId(id);
+  //     const buyButton = btn;
+  //     buyButton.innerText = 'in the cart';
+  //     setCartBookCounter(id);
+  //   });
+  // });
 }
 
 export default books;

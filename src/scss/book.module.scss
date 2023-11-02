@@ -1,16 +1,11 @@
 @import './colors';
 @import './typography';
 
-.serif-font {
-  font-family: Georgia, serif;
-}
-
-.element {
-  composes: serif-font;
-  background-color: blue;
-  color: white;
-  font-size: 20px;
-  padding: 20px;
+@mixin open-sans-font {
+  @include font($text-font, 10px, normal, 400, normal);
+  
+  color: $text-gray;
+  text-transform: capitalize;
 }
 
 .book {
@@ -18,8 +13,10 @@
   gap: 36px;
 
   .content-wrapper {
+    width: 30%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 
     .title {
       @include font($montserrat, 16px, normal, 700, normal);
@@ -28,17 +25,21 @@
     }
   
     .author {
-      @include font($text-font, 10px, normal, 400, normal);
-  
-      color: $text-gray;
-      text-transform: capitalize;
+      @include open-sans-font;
     }
 
     .description {
-      @include font($text-font, 10px, normal, 400, normal);
+      @include open-sans-font;
 
-      color: $text-gray;
-      text-transform: capitalize;
+      width: 176px;
+      height: 39px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .reviews {
+      @include open-sans-font;
     }
 
     .price {
