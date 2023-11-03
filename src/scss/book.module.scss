@@ -52,14 +52,16 @@
     .buy-button {
       width: 176px;
       height: 45px;
-      border: 1px solid #4C3DB2;
+      border: 1px solid $btn-border;
       cursor: pointer;
-      background-color: #fff;
+      background-color: $white;
       text-transform: uppercase;
+      color: $btn-border;
 
       &:hover {
-        border-color: #1d07aa;
-        background-color: #d8cccc;
+        border-color: $btn-border-hover;
+        color: $btn-border-hover;
+        background-color: $btn-bg;
       }
     }
   }

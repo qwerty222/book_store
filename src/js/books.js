@@ -88,9 +88,13 @@ const convertData = (items) => {
 const CART_KEY = 'cart_book_ids';
 
 const getSavedBookIds = () => {
+  let result = [];
   const bookArrayString = localStorage.getItem(CART_KEY);
+  if (bookArrayString) {
+    result = bookArrayString.split(',');
+  }
 
-  return bookArrayString.split(',');
+  return result;
 };
 
 const saveBookId = (id) => {
@@ -104,7 +108,7 @@ const saveBookId = (id) => {
 
 const setCartBookCounter = () => {
   const cart = document.querySelector('.cart-counter');
-  cart.style.display = 'block';
+  cart.style.display = 'flex';
   cart.innerText = getSavedBookIds().length;
 };
 
@@ -129,8 +133,6 @@ const createBook = (bookData) => {
   const ids = getSavedBookIds();
   const saved = ids.includes(bookData.id);
 
-  const stars = getStars(bookData.rating);
-
   const html = `<div class="${styles['image-wrapper']}">
                  <img src="${bookData.cover}" alt>
                 </div>
@@ -138,7 +140,7 @@ const createBook = (bookData) => {
                   <p class="${styles.author}">${bookData.authors}</p>
                   <p class="${styles.title}">${bookData.title}</p>
                   <div class="stars">
-                    ${stars}
+                    ${getStars(bookData.rating)}
                     <span class="${styles.reviews}">${bookData.reviews} review</span>
                   </div>
                   <p class="${styles.description}">${bookData.description}</p>
@@ -161,11 +163,10 @@ const showBooks = async (category, position = 0) => {
 
     const btn = document.getElementById(book.id);
     btn.addEventListener('click', () => {
-      const id = btn.dataset.bookId;
-      saveBookId(id);
+      saveBookId(book.id);
       const buyButton = btn;
       buyButton.innerText = 'in the cart';
-      setCartBookCounter(id);
+      setCartBookCounter(book.id);
     });
   });
 };
@@ -191,20 +192,6 @@ function books() {
     const position = document.querySelectorAll(`.${styles.book}`).length;
     showBooks(activeCategory.dataset.bookType, position);
   });
-
-  // const btnStyle = styles['buy-button'];
-  // const buyButtons = document.querySelectorAll(`.${btnStyle}`);
-  // console.log('---buyButtons---', buyButtons, btnStyle);
-  // buyButtons.forEach((btn) => {
-  //   btn.addEventListener('click', () => {
-  //     console.log('button click', btn.dataset.bookId);
-  //     const id = btn.dataset.bookId;
-  //     saveBookId(id);
-  //     const buyButton = btn;
-  //     buyButton.innerText = 'in the cart';
-  //     setCartBookCounter(id);
-  //   });
-  // });
 }
 
 export default books;

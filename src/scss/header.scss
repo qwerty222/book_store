@@ -29,7 +29,11 @@
             color: $text-black;    
             text-transform: uppercase;
             text-decoration: none;
-            cursor: pointer;
+
+            &:hover {
+                cursor: pointer;
+                color: $text-gray;
+            }
         }
     }
 
@@ -40,7 +44,11 @@
     
         a {
             text-decoration: none;
-            cursor: pointer;
+
+            svg:hover {
+                cursor: pointer;
+                transform: scale(1.5);
+            }
         }
 
         .header-user-menu-cart {
@@ -49,6 +57,9 @@
             .cart-counter {
                 @include font($montserrat, 10px, normal, 500, normal);
     
+                display: none;
+                justify-content: center;
+                align-items: center;
                 width: 13px;
                 height: 13px;
                 background-color: $red;
@@ -59,7 +70,6 @@
                 top: -10px;
                 left: 5px;
                 z-index: 1;
-                display: none;
             }
         }
     }

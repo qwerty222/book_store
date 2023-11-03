@@ -8,7 +8,7 @@
     z-index: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-auto-rows: repeat(3, 1fr);
     row-gap: 85px;
 }
 
@@ -17,7 +17,14 @@
 
     width: 176px;
     height: 45px;
-    border: 1px solid #4C3DB2;
-    color: #4C3DB2;
+    border: 1px solid $btn-border;
+    color: $btn-border;
     text-transform: uppercase;
+
+    &:hover {
+        border-color: $btn-border-hover;
+        background-color: $btn-bg;
+        color: $btn-border-hover;
+        cursor: pointer;
+      }
 }
