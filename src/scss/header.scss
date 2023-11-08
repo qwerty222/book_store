@@ -3,6 +3,7 @@
 
 .header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding: 40px 160px;
@@ -18,10 +19,18 @@
         color: $text-black;
     }
 
+    @media (width < 700px) {
+        .header-nav { gap: 5px; }
+    }
+
+    @media (width >= 700px) {
+        .header-nav { gap: 40px; }
+    }
+
     .header-nav {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
-        gap: 40px;
 
         .header-link {    
             @include font($montserrat, 10px, normal, 900, normal);

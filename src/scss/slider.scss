@@ -33,6 +33,14 @@
         }
     }
 
+    @media (width < 800px) {
+        p.slider-text { font-size: 10px; }
+    }
+
+    @media (width >= 800px) {
+        p.slider-text { font-size: 18px; }
+    }
+
     .slider-link {
         display: flex;
         justify-self: start;
@@ -44,10 +52,10 @@
         a {
             text-decoration: none;
             cursor: pointer;
-        }
 
-        p {
-            margin: 0;
+            p {
+                margin: 0;
+            }
         }
     }
 
@@ -55,7 +63,7 @@
         background: $purple;
         top: 11%;
         right: 5%;
-        padding: 100px 20px 20px;
+        padding: 6em 1em 1em;
         width: 10%;
         height: 12%;
     }
@@ -64,7 +72,7 @@
         background: $pink;
         top: 50%;
         right: 0;
-        padding: 100px 50px 20px 20px;
+        padding: 6em 3em 1em 1em;
         width: 5%;
         height: 17%;
     }

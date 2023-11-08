@@ -31,11 +31,11 @@
     .description {
       @include open-sans-font;
 
-      width: 176px;
-      height: 39px;
+      width: 176px;      
+      display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     .reviews {
@@ -73,6 +73,7 @@
     img {
       width: 100%;
       height: 100%;
+      box-shadow: 0 24px 36px 0 rgba(53 49 84 / 28%);
     }
   }
 }
